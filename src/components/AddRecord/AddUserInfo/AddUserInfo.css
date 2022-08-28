@@ -54,6 +54,7 @@ label {
 .inputGroup {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 10px;
 }
 
@@ -84,6 +85,10 @@ select {
   height: 60px;
   font-size: 18px;
   font-weight: 700;
+}
+
+select option {
+  background-color: #fff;
 }
 
 .nextButton {
@@ -118,4 +123,15 @@ input[type='number']::-webkit-inner-spin-button {
 
 input[type='number'] {
   -moz-appearance: textfield;
+}
+
+.errorText {
+  background-color: #fff;
+  color: rgb(180, 61, 61);
+  word-wrap: break-word;
+  width: 100%;
+}
+
+#selects p {
+  padding-top: 10px;
 }
