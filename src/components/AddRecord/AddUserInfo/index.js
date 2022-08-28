@@ -81,6 +81,10 @@ const AddUserInfo = (props) => {
       if (checkAlphabet(enteredInfo.name) > 0) {
         errorsArray.push('სახელი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
       }
+
+      if (!enteredInfo.name > 2) {
+        errorsArray.push('სახელი არ უნდა იყოს 2 ასოზე ნაკლები');
+      }
     }
 
     if (enteredInfo.surname) {
@@ -90,6 +94,10 @@ const AddUserInfo = (props) => {
 
       if (checkAlphabet(enteredInfo.surname) > 0) {
         errorsArray.push('გვარი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
+      }
+
+      if (!enteredInfo.surname > 2) {
+        errorsArray.push('გვარი არ უნდა იყოს 2 ასოზე ნაკლები');
       }
     }
 

@@ -1,5 +1,5 @@
 export const validNumber = (number) => {
-  let regex = new RegExp('995+[0-9]');
+  const regex = new RegExp('995+[0-9]{12}');
 
   return regex.test(number);
 };
