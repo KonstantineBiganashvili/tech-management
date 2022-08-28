@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './AddUserInfo.css';
+import { FaArrowLeft } from 'react-icons/fa';
 import { withOutBody } from '../../../services/APIServices';
+import { checkAlphabet } from '../../../services/LanguageCheck';
+import { validMail } from '../../../services/ValidMail';
+import Header from '../Header';
+import Errors from '../../Errors';
 
-const AddUserInfo = () => {
-  const [enteredInfo, setEnteredInfo] = useState({});
+const AddUserInfo = (props) => {
+  const { enteredInfo, setEnteredInfo } = props;
   const [teams, setTeams] = useState([]);
   const [positions, setPosition] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const teamsList = async () => {
@@ -23,6 +31,11 @@ const AddUserInfo = () => {
     teamsList();
     positionsList();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('userInfo', JSON.stringify(enteredInfo));
+    setErrors([]);
+  }, [enteredInfo]);
 
   const teamsOptions = teams.map((element) => {
     return (
@@ -45,13 +58,66 @@ const AddUserInfo = () => {
     return null;
   });
 
+  const nextPage = () => {
+    const errorsArray = [];
+
+    if (
+      !enteredInfo.name ||
+      !enteredInfo.surname ||
+      !enteredInfo.team ||
+      !enteredInfo.position ||
+      !enteredInfo.mail ||
+      !enteredInfo.number
+    ) {
+      errorsArray.push('აუცილებელია ყოველი ველის შევსება!');
+    }
+
+    if (enteredInfo.name) {
+      if (!enteredInfo.name.trim()) {
+        errorsArray.push('სახელი არ უნდა იყოს ცარიელი');
+      }
+
+      if (checkAlphabet(enteredInfo.name) > 0) {
+        errorsArray.push('სახელი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
+      }
+    }
+
+    if (enteredInfo.surname) {
+      if (!enteredInfo.surname.trim()) {
+        errorsArray.push('გვარი არ უნდა იყოს ცარიელი');
+      }
+
+      if (checkAlphabet(enteredInfo.surname) > 0) {
+        errorsArray.push('გვარი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
+      }
+    }
+
+    if (enteredInfo.mail) {
+      if (!enteredInfo.mail.trim()) {
+        errorsArray.push('მეილი არ უნდა იყოს ცარიელი');
+      }
+
+      if (!validMail(enteredInfo.mail.toLowerCase())) {
+        errorsArray.push('მეილი უნდა მთავრდებოდეს @redberry.com-ით');
+      }
+    }
+
+    if (errorsArray.length) {
+      return setErrors(errorsArray);
+    }
+
+    return navigate('../addrecords/specs');
+  };
+
   return (
     <div id="addUserInfo">
-      <div id="header">
-        <h2>თანამშრომლის ინფო</h2>
-        <h2>ლეპტოპის მახასიათებლები</h2>
-      </div>
+      <Link to="/">
+        <FaArrowLeft id="backButton" />
+      </Link>
+
+      <Header activeEmployees={true} activeSpecs={false} />
       <div className="inputFields">
+        <ul>{errors.length ? <Errors errors={errors} /> : null}</ul>
         <div className="textInputs">
           <div className="inputGroup">
             <label htmlFor="nameInputField">თანამშრომლის სახელი:</label>
@@ -61,23 +127,25 @@ const AddUserInfo = () => {
               onInput={(e) => {
                 setEnteredInfo((oldInfo) => ({
                   ...oldInfo,
-                  name: e.target.value,
+                  name: e.target.value.toLowerCase(),
                 }));
               }}
+              value={enteredInfo.name || ''}
             />
             <p className="additionalInfo">მინიმუმ 2 სიმბოლო, ქართული ასოები</p>
           </div>
           <div className="inputGroup">
-            <label htmlFor="surnameInputField">თანამშრომლის სახელი:</label>
+            <label htmlFor="surnameInputField">თანამშრომლის გვარი:</label>
             <input
               type="text"
               id="surnameInputField"
               onInput={(e) => {
                 setEnteredInfo((oldInfo) => ({
                   ...oldInfo,
-                  surname: e.target.value,
+                  surname: e.target.value.toLowerCase(),
                 }));
               }}
+              value={enteredInfo.surname || ''}
             />
             <p className="additionalInfo">მინიმუმ 2 სიმბოლო, ქართული ასოები</p>
           </div>
@@ -91,8 +159,9 @@ const AddUserInfo = () => {
                 team: e.target.value,
               }));
             }}
+            value={enteredInfo.team || 'team'}
           >
-            <option value="" selected disabled hidden>
+            <option value="team" disabled hidden>
               თიმი
             </option>
             {teamsOptions}
@@ -106,8 +175,9 @@ const AddUserInfo = () => {
                 position: e.target.value,
               }));
             }}
+            value={enteredInfo.position || 'position'}
           >
-            <option value="" selected disabled hidden>
+            <option value="position" disabled hidden>
               პოზიცია
             </option>
 
@@ -123,9 +193,10 @@ const AddUserInfo = () => {
               onInput={(e) => {
                 setEnteredInfo((oldInfo) => ({
                   ...oldInfo,
-                  mail: e.target.value,
+                  mail: e.target.value.toLowerCase(),
                 }));
               }}
+              value={enteredInfo.mail || ''}
             />
             <p className="additionalInfo">უნდა მთავრდებოდეს @redberry.com-ით</p>
           </div>
@@ -137,16 +208,19 @@ const AddUserInfo = () => {
               onInput={(e) => {
                 setEnteredInfo((oldInfo) => ({
                   ...oldInfo,
-                  number: e.target.value,
+                  number: e.target.value.toLowerCase(),
                 }));
               }}
+              value={enteredInfo.number || 995}
             />
             <p className="additionalInfo">
               უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს
             </p>
           </div>
         </div>
-        <button id="nextButton">შემდეგი</button>
+        <button className="nextButton" onClick={nextPage}>
+          შემდეგი
+        </button>
       </div>
       <img src="./img/logo-round.png" alt="redberry round logo" />
     </div>
