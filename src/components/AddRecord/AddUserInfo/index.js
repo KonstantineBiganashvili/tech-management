@@ -5,6 +5,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { withOutBody } from '../../../services/APIServices';
 import { checkAlphabet } from '../../../services/LanguageCheck';
 import { validMail } from '../../../services/ValidMail';
+import { validNumber } from '../../../services/ValidNumber';
 import Header from '../Header';
 import Errors from '../../Errors';
 
@@ -80,6 +81,10 @@ const AddUserInfo = (props) => {
       if (checkAlphabet(enteredInfo.name) > 0) {
         errorsArray.push('სახელი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
       }
+
+      if (!enteredInfo.name > 2) {
+        errorsArray.push('სახელი არ უნდა იყოს 2 ასოზე ნაკლები');
+      }
     }
 
     if (enteredInfo.surname) {
@@ -89,6 +94,26 @@ const AddUserInfo = (props) => {
 
       if (checkAlphabet(enteredInfo.surname) > 0) {
         errorsArray.push('გვარი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
+      }
+
+      if (!enteredInfo.surname > 2) {
+        errorsArray.push('გვარი არ უნდა იყოს 2 ასოზე ნაკლები');
+      }
+    }
+
+    if (enteredInfo.number) {
+      console.log(enteredInfo.number.length);
+      if (!String(enteredInfo.number).trim()) {
+        errorsArray.push('მობილურის ნომერი არ უნდა იყოს ცარიელი');
+      }
+
+      if (
+        !validNumber(String(enteredInfo.number)) ||
+        enteredInfo.number.length !== 12
+      ) {
+        errorsArray.push(
+          'მობილურის ნომერი უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს'
+        );
       }
     }
 
