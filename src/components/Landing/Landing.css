@@ -1,0 +1,32 @@
+#landing {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  gap: 50px;
+}
+
+#buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.landingBtns {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  width: 387px;
+  height: 60px;
+  background: #62a1eb;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.landingBtns:hover {
+  transform: scale(0.99);
+}
