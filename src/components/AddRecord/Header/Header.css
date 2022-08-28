@@ -1,0 +1,16 @@
+#header {
+  font-size: 14px;
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+.page {
+  text-decoration: none;
+  color: #000;
+}
+
+.activePage {
+  text-decoration: underline;
+  text-underline-offset: 10px;
+}

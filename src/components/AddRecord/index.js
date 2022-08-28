@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddUSerInfo from './AddUserInfo';
 
-const index = () => {
+const AddRecord = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const [enteredInfo, setEnteredInfo] = useState(
+    JSON.parse(localStorage.getItem('userInfo')) || {}
+  );
+
   return (
     <>
-      <AddUSerInfo />
+      <AddUSerInfo
+        enteredInfo={enteredInfo}
+        setEnteredInfo={setEnteredInfo}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </>
   );
 };
 
-export default index;
+export default AddRecord;

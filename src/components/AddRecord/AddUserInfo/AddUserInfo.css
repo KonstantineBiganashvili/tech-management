@@ -8,13 +8,6 @@
   gap: 40px;
 }
 
-#header {
-  font-size: 14px;
-  display: flex;
-  gap: 40px;
-  justify-content: center;
-}
-
 .inputFields {
   display: flex;
   flex-direction: column;
@@ -45,7 +38,8 @@
 .inputGroup,
 label,
 input,
-.additionalInfo {
+.additionalInfo,
+li {
   background-color: #fff;
 }
 
@@ -92,7 +86,7 @@ select {
   font-weight: 700;
 }
 
-#nextButton {
+.nextButton {
   background: none;
   border: none;
   color: #fff;
@@ -101,6 +95,19 @@ select {
   width: 110px;
   height: 40px;
   align-self: flex-end;
+}
+
+.nextButton:hover {
+  cursor: pointer;
+  transform: scale(0.99);
+}
+
+#backButton {
+  position: fixed;
+  left: 80px;
+  top: 50px;
+  font-size: 25px;
+  color: #000;
 }
 
 input[type='number']::-webkit-outer-spin-button,
