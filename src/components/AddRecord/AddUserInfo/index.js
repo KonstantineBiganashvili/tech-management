@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useInsertionEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './AddUserInfo.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import { withOutBody } from '../../../services/APIServices';
 import { checkAlphabet } from '../../../services/LanguageCheck';
 import { validMail } from '../../../services/ValidMail';
+import { validNumber } from '../../../services/ValidNumber';
 import Header from '../Header';
 import Errors from '../../Errors';
 
@@ -89,6 +90,22 @@ const AddUserInfo = (props) => {
 
       if (checkAlphabet(enteredInfo.surname) > 0) {
         errorsArray.push('გვარი უნდა შეიცავდეს მხოლოდ ქართულ ასოებს');
+      }
+    }
+
+    if (enteredInfo.number) {
+      console.log(enteredInfo.number.length);
+      if (!String(enteredInfo.number).trim()) {
+        errorsArray.push('მობილურის ნომერი არ უნდა იყოს ცარიელი');
+      }
+
+      if (
+        !validNumber(String(enteredInfo.number)) ||
+        enteredInfo.number.length !== 12
+      ) {
+        errorsArray.push(
+          'მობილურის ნომერი უნდა აკმაყოფილებდეს ქართული მობ-ნომრის ფორმატს'
+        );
       }
     }
 
