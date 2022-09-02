@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './AddUserInfo.css';
 import { FaArrowLeft } from 'react-icons/fa';
-import { withOutBody } from '../../../services/APIServices';
+import { withOutBody } from '../../services/APIServices';
 import {
   checkAlphabet,
   validMail,
   validNumber,
-} from '../../../helpers/validators';
+} from '../../helpers/validators';
 
 import Header from '../Header';
-import Select from '../../Select';
+import Select from '../Select';
 
 const AddUserInfo = (props) => {
   const { enteredInfo, setEnteredInfo } = props;
