@@ -3,10 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import './AddUserInfo.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import { withOutBody } from '../../../services/APIServices';
-import { checkAlphabet } from '../../../services/LanguageCheck';
-import { validMail } from '../../../services/ValidMail';
-import { validNumber } from '../../../services/ValidNumber';
+import {
+  checkAlphabet,
+  validMail,
+  validNumber,
+} from '../../../helpers/validators';
+
 import Header from '../Header';
+import Select from '../../Select';
 
 const AddUserInfo = (props) => {
   const { enteredInfo, setEnteredInfo } = props;
@@ -39,9 +43,7 @@ const AddUserInfo = (props) => {
 
   const teamsOptions = teams.map((element) => {
     return (
-      <option key={element.id} id={element.id}>
-        {element.name}
-      </option>
+      <Select key={element.id} id={element.id} selectName={element.name} />
     );
   });
 
@@ -51,8 +53,12 @@ const AddUserInfo = (props) => {
       return false;
     });
 
+    console.log(currentTeam);
+
     if (currentTeam.length && currentTeam[0].id === element.team_id) {
-      return <option key={element.id}>{element.name}</option>;
+      return (
+        <Select key={element.id} id={element.id} selectName={element.name} />
+      );
     }
 
     return null;
@@ -268,7 +274,7 @@ const AddUserInfo = (props) => {
           შემდეგი
         </button>
       </div>
-      <img src="./img/logo-round.png" alt="redberry round logo" />
+      <img src="/img/logo-round.png" alt="redberry round logo" />
     </div>
   );
 };
