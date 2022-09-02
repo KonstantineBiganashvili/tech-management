@@ -9,7 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />}></Route>
-        <Route path="/addrecord/user" element={<AddUserInfo />} />
+        <Route path="/addrecord/employee" element={<AddUserInfo />} />
       </Routes>
     </Router>
   );

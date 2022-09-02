@@ -8,10 +8,10 @@ const Landing = () => {
       <img src="./img/logo.png" id="logo" alt="redberry logo" />
       <img src="./img/landing.png" id="landingImg" alt="landing" />
       <div id="buttons">
-        <Link to="addrecord">
+        <Link to="addrecord/employee">
           <button className="landingBtns">ჩანაწერის დამატება</button>
         </Link>
-        <Link to="records">
+        <Link to="records/git pul">
           <button className="landingBtns">ჩანაწერების სია</button>
         </Link>
       </div>
