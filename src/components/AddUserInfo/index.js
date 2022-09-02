@@ -13,7 +13,10 @@ import Header from '../Header';
 import Select from '../Select';
 
 const AddUserInfo = (props) => {
-  const { enteredInfo, setEnteredInfo } = props;
+  const [enteredInfo, setEnteredInfo] = useState(
+    JSON.parse(localStorage.getItem('userInfo')) || {}
+  );
+
   const [teams, setTeams] = useState([]);
   const [positions, setPosition] = useState([]);
   const [errors, setErrors] = useState([]);
