@@ -1,8 +1,8 @@
 import React from 'react';
-import './Header.css';
+import './header.css';
 
 const Header = (props) => {
-  const { activeEmployees, activeSpecs } = props;
+  const { activeEmployees = false, activeSpecs = false } = props;
 
   return (
     <div id="header">

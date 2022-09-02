@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './AddUserInfo.css';
+import './addUserInfo.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import { withOutBody } from '../../services/APIServices';
 import {
