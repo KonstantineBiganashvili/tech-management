@@ -53,8 +53,6 @@ const AddUserInfo = (props) => {
       return false;
     });
 
-    console.log(currentTeam);
-
     if (currentTeam.length && currentTeam[0].id === element.team_id) {
       return (
         <Select key={element.id} id={element.id} selectName={element.name} />
