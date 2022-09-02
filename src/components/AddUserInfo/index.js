@@ -130,7 +130,7 @@ const AddUserInfo = (props) => {
       return setErrors(errorsObject);
     }
 
-    return navigate('../addrecords/specs');
+    return navigate('../addrecord/specs');
   };
 
   return (
