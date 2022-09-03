@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Select = (props) => {
-  const { selectName } = props;
+  const { selectName, value } = props;
 
-  return <option>{selectName}</option>;
+  return <option value={value}>{selectName}</option>;
 };
 
 export default Select;
