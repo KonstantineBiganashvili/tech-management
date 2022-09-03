@@ -14,6 +14,12 @@ export const checkAlphabet = (string) => {
   return n;
 };
 
+export const validLaptopName = (string) => {
+  const regex = RegExp('^[ A-Za-z0-9!@#$%^&*()_+=]+$');
+
+  return regex.test(string);
+};
+
 export const validMail = (mail) => {
   const regex = new RegExp('[a-z0-9]+@redberry.com');
 

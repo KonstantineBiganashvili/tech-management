@@ -19,7 +19,7 @@ const AddUserInfo = (props) => {
 
   const [teams, setTeams] = useState([]);
   const [positions, setPosition] = useState([]);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const AddUserInfo = (props) => {
 
   useEffect(() => {
     localStorage.setItem('userInfo', JSON.stringify(enteredInfo));
-    setErrors([]);
+    setErrors({});
   }, [enteredInfo]);
 
   const teamsOptions = teams.map((element) => {
@@ -185,7 +185,7 @@ const AddUserInfo = (props) => {
             )}
           </div>
         </div>
-        <div id="selects">
+        <div className="selects">
           <div className="selectOptions">
             <select
               onChange={(e) => {

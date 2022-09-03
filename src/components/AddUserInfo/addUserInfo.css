@@ -19,7 +19,7 @@
   border-radius: 8px;
 }
 
-#selects {
+.selects {
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -132,6 +132,6 @@ input[type='number'] {
   width: 100%;
 }
 
-#selects p {
+.selects p {
   padding-top: 10px;
 }
