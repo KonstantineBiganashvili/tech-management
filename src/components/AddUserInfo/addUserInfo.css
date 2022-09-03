@@ -4,7 +4,8 @@
   justify-content: center;
   align-items: center;
   width: 1000px;
-  margin: 50px auto;
+  margin: auto;
+  padding-bottom: 50px;
   gap: 40px;
 }
 
