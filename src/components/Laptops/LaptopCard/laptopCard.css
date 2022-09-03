@@ -1,0 +1,35 @@
+.laptopCard {
+  display: flex;
+  background-color: #eafaff;
+  border-radius: 8px;
+  border: 1px solid #aed1ea;
+  gap: 20px;
+  padding: 10px;
+}
+
+.laptopCard:last-child {
+  margin-bottom: 50px;
+}
+
+.laptopImg {
+  width: 300px;
+  border-radius: 8px;
+}
+
+.laptopInfo {
+  background-color: #eafaff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+p {
+  padding: 10px;
+  font-weight: 700;
+}
+
+a {
+  color: #4386a9;
+  padding: 40px 10px;
+}
