@@ -11,7 +11,7 @@ const Landing = () => {
         <Link to="addrecord/employee">
           <button className="landingBtns">ჩანაწერის დამატება</button>
         </Link>
-        <Link to="records/git pul">
+        <Link to="records/">
           <button className="landingBtns">ჩანაწერების სია</button>
         </Link>
       </div>
