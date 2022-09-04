@@ -46,19 +46,21 @@ const AddUserInfo = (props) => {
 
   const teamsOptions = teams.map((element) => {
     return (
-      <Select key={element.id} id={element.id} selectName={element.name} />
+      <Select key={element.id} value={element.id} selectName={element.name} />
     );
   });
 
   const postionsOptions = positions.map((element) => {
     const currentTeam = teams.filter((element) => {
-      if (element.name === enteredInfo.team) return true;
+      if (element.id === Number(enteredInfo.team)) return true;
       return false;
     });
 
+    console.log(currentTeam);
+
     if (currentTeam.length && currentTeam[0].id === element.team_id) {
       return (
-        <Select key={element.id} id={element.id} selectName={element.name} />
+        <Select key={element.id} value={element.id} selectName={element.name} />
       );
     }
 

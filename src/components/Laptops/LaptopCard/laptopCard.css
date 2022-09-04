@@ -22,7 +22,7 @@
   justify-content: space-between;
 }
 
-p {
+.cardP {
   padding: 10px;
   font-weight: 700;
 }

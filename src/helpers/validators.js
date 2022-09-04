@@ -21,7 +21,7 @@ export const validLaptopName = (string) => {
 };
 
 export const validMail = (mail) => {
-  const regex = new RegExp('[a-z0-9]+@redberry.com');
+  const regex = new RegExp('[a-z0-9]+@redberry.ge');
 
   return regex.test(mail);
 };
