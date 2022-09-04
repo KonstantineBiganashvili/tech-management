@@ -14,10 +14,10 @@ const LaptopCard = (props) => {
       />
       <div className="laptopInfo">
         <div>
-          <p>
+          <p className="cardP">
             {user.name} {user.surname}
           </p>
-          <p>{laptop.name}</p>
+          <p className="cardP">{laptop.name}</p>
         </div>
         <Link to={`./${id}`}>მეტის ნახვა</Link>
       </div>

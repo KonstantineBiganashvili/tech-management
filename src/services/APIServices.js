@@ -27,3 +27,17 @@ export const withToken = async (method, url, token, id) => {
     console.log(error);
   }
 };
+
+export const postMethod = (body) => {
+  for (const pair of body.entries()) {
+    console.log(`${pair[0]}, ${pair[1]}`);
+  }
+
+  Axios.post('https://pcfy.redberryinternship.ge/api/laptop/create', body)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

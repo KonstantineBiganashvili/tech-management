@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import Axios from 'axios';
 import { withOutToken } from '../../services/APIServices';
 import { Link, useNavigate } from 'react-router-dom';
+import { postMethod } from '../../services/APIServices';
 import { FaArrowLeft } from 'react-icons/fa';
+import { AiFillWarning } from 'react-icons/ai';
 import { GiCancel } from 'react-icons/gi';
 import './addSpecs.css';
 import { validLaptopName } from '../../helpers/validators';
@@ -13,6 +16,7 @@ const AddSpecs = () => {
   const [specsInfo, setSpecsInfo] = useState(
     JSON.parse(localStorage.getItem('laptopSpecs')) || {
       laptop_name: '',
+      laptop_image_base64: '',
       laptop_image: [],
       laptop_brand_id: '',
       laptop_cpu: '',
@@ -29,6 +33,7 @@ const AddSpecs = () => {
   const [cpus, setCpus] = useState([]);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const formData = new FormData();
 
   useEffect(() => {
     const brandsList = async () => {
@@ -60,36 +65,45 @@ const AddSpecs = () => {
   });
 
   const cpuOptions = cpus.map((cpu) => {
-    return <Select key={cpu.id} id={cpu.id} selectName={cpu.name} />;
+    return <Select key={cpu.id} value={cpu.name} selectName={cpu.name} />;
   });
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
-      setSpecsInfo((oldSpecsInfo) => ({
-        ...oldSpecsInfo,
-        laptop_image: acceptedFiles.map((file) =>
-          Object.assign(file, { preview: URL.createObjectURL(file) })
-        ),
-      }));
+      const reader = new FileReader();
+      reader.readAsDataURL(acceptedFiles[0]);
+
+      reader.addEventListener('load', () => {
+        formData.append('laptop_image', acceptedFiles);
+
+        for (const pair of formData.entries()) {
+          console.log(`${pair[0]}, ${pair[1]}`);
+        }
+
+        setSpecsInfo((oldSpecs) => ({
+          ...oldSpecs,
+          laptop_image_base64: reader.result,
+          laptop_image: acceptedFiles,
+        }));
+      });
     },
   });
+
+  // useEffect(() => {
+  //   console.log(formData);
+  //   for (const pair of formData.entries()) {
+  //     console.log(`${pair[0]}, ${pair[1]}`);
+  //   }
+  // }, [specsInfo]);
 
   const handleCancel = () => {
     setSpecsInfo((oldInfo) => ({
       ...oldInfo,
       laptop_image: [],
+      laptop_image_base64: '',
     }));
   };
-
-  const images = specsInfo.laptop_image.map((file) => (
-    <img
-      key={file.name}
-      src={file.preview}
-      style={{ width: '100%', height: '300px', objectFit: 'contain' }}
-      alt="laptop"
-    />
-  ));
 
   const handleStateChange = (name, inputValue) => {
     setSpecsInfo((oldSpecsInfo) => ({
@@ -103,6 +117,13 @@ const AddSpecs = () => {
       setErrors((oldErrors) => ({
         ...oldErrors,
         laptopNameError: 'ლეპტოპის სახელი არ უნდა იყოს ცარიელი',
+      }));
+    }
+
+    if (!specsInfo.laptop_image_base64.trim()) {
+      setErrors((oldErrors) => ({
+        ...oldErrors,
+        laptopImageError: 'სურათის ატვირთვა აუცილებელია',
       }));
     }
 
@@ -165,8 +186,39 @@ const AddSpecs = () => {
     if (!specsInfo.laptop_state.trim()) {
       setErrors((oldErrors) => ({
         ...oldErrors,
-        stateError: 'შეიყვანეთ RAM-ის რაოდენობა',
+        stateError: 'აირჩიეთ მდგომარეობა',
       }));
+    }
+
+    if (!Object.keys(errors).length) {
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+      const finalInfo = {
+        name: userInfo.name,
+        surname: userInfo.surname,
+        team_id: Number(userInfo.team),
+        position_id: Number(userInfo.position),
+        phone_number: `+${userInfo.number}`,
+        email: userInfo.mail,
+        token: '7bbb011efcb959c1a848307bcc39a10e',
+        laptop_name: specsInfo.laptop_name,
+        laptop_brand_id: Number(specsInfo.laptop_brand_id),
+        // laptop_image: specsInfo.laptop_image,
+        laptop_cpu: specsInfo.laptop_cpu,
+        laptop_cpu_cores: Number(specsInfo.laptop_cpu_cores),
+        laptop_cpu_threads: Number(specsInfo.laptop_cpu_threads),
+        laptop_ram: Number(specsInfo.laptop_ram),
+        laptop_hard_drive_type: specsInfo.laptop_hard_drive_type,
+        laptop_state: specsInfo.laptop_state,
+        laptop_purchase_date: specsInfo.laptop_purchase_date,
+        laptop_price: specsInfo.laptop_price,
+      };
+
+      for (let key in finalInfo) {
+        formData.append(key, finalInfo[key]);
+      }
+
+      postMethod(formData);
     }
   };
 
@@ -177,14 +229,25 @@ const AddSpecs = () => {
       </Link>
       <Header activeSpecs={true} />
       <div className="inputFields">
-        {specsInfo.laptop_image.length > 0 ? (
+        {specsInfo.laptop_image_base64.length > 0 ? (
           <div id="uploadedImg">
-            {images}
+            <img
+              src={specsInfo.laptop_image_base64}
+              alt="laptop.img"
+              id="laptopImgToSend"
+            />
             <GiCancel onClick={handleCancel} id="cancelIcon" />
           </div>
         ) : (
           <div id="uploadImgField" {...getRootProps()}>
-            <p id="imgUploadTxt">ჩააგდე ან ატვირთე ლეპტოპის ფოტო</p>
+            {errors.laptopImageError ? (
+              <div id="warning">
+                <AiFillWarning id="warningSign" />
+                <p id="errorText">{errors.laptopImageError}</p>
+              </div>
+            ) : (
+              <p id="imgUploadTxt">ჩააგდე ან ატვირთე ლეპტოპის ფოტო</p>
+            )}
             <p id="uploadImgLabel">ატვირთე</p>
             <input
               id="uploadImgInput"
@@ -392,13 +455,13 @@ const AddSpecs = () => {
               <input
                 type="radio"
                 name="condition"
-                id="old"
-                value="old"
+                id="used"
+                value="used"
                 onChange={({ target }) =>
                   handleStateChange('laptop_state', target.value)
                 }
               />
-              <label htmlFor="old">ნახმარი</label>
+              <label htmlFor="used">ნახმარი</label>
             </div>
           </div>
           {errors.stateError && (
