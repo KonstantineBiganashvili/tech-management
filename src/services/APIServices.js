@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-export const withOutBody = async (method, url) => {
+export const withOutToken = async (method, url) => {
   const items = await Axios({
     method,
     url: `https://pcfy.redberryinternship.ge/api/${url}`,
@@ -10,13 +10,15 @@ export const withOutBody = async (method, url) => {
   return data;
 };
 
-export const withBody = async (method, url) => {
-  // const newBody = JSON.stringify(body);
+export const withToken = async (method, url, token, id) => {
+  const finalLink = id
+    ? `${url}/${id}?token=${token}`
+    : `${url}?token=${token}`;
 
   try {
     const items = await Axios({
       method,
-      url: `https://pcfy.redberryinternship.ge/api/${url}?token=7bbb011efcb959c1a848307bcc39a10e`,
+      url: `https://pcfy.redberryinternship.ge/api/${finalLink}`,
     });
 
     const data = await items.data;

@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { withBody } from '../../services/APIServices';
+import { Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
+import { withToken } from '../../../services/APIServices';
 import './laptops.css';
-import LaptopCard from './LaptopCard';
-import LaptopHeader from './LaptopHeader';
+import LaptopCard from '../LaptopCard';
+import LaptopHeader from '../LaptopHeader';
 
-const Laptops = () => {
+const LaptopsList = () => {
   const [laptopsList, setLaptopsList] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
-      const response = await withBody('GET', 'laptops');
+      const response = await withToken(
+        'GET',
+        'laptops',
+        '7bbb011efcb959c1a848307bcc39a10e'
+      );
 
       setLaptopsList(response.data);
     };
@@ -30,10 +36,13 @@ const Laptops = () => {
 
   return (
     <div id="allLaptops">
+      <Link to="/">
+        <FaArrowLeft id="backButton" />
+      </Link>
       <LaptopHeader text="ჩანაწერების სია" />
       <>{laptops}</>
     </div>
   );
 };
 
-export default Laptops;
+export default LaptopsList;
