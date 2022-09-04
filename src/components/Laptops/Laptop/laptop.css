@@ -35,6 +35,7 @@
 #laptopImg {
   width: 500px;
   border-radius: 8px;
+  object-fit: contain;
 }
 
 hr {

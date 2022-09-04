@@ -118,7 +118,7 @@ input[type='file'] {
 #conditionRadioBtns {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 30px;
   background-color: #fff;
 }
