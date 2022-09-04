@@ -1,0 +1,50 @@
+#laptopContainer {
+  background-color: #fff;
+}
+
+#userInformation {
+  margin: 30px auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+#userInfoTable {
+  width: 500px;
+}
+
+.laptopInfoTable {
+  width: 400px;
+}
+
+#additionalInfo {
+  width: 1050px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: auto;
+}
+
+#userInfoTable tr td,
+.laptopInfoTable tr td {
+  padding: 13px 0;
+}
+
+#laptopImg {
+  width: 500px;
+  border-radius: 8px;
+}
+
+hr {
+  width: 1100px;
+  margin: 30px auto;
+}
+
+#laptopInfo {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 250px;
+}

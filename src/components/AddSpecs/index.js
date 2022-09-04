@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { withOutBody } from '../../services/APIServices';
+import { withOutToken } from '../../services/APIServices';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
@@ -32,13 +32,13 @@ const AddSpecs = () => {
 
   useEffect(() => {
     const brandsList = async () => {
-      const brandsData = await withOutBody('GET', 'brands');
+      const brandsData = await withOutToken('GET', 'brands');
 
       setLaptopBrands(brandsData.data);
     };
 
     const cpusList = async () => {
-      const cpusData = await withOutBody('GET', 'cpus');
+      const cpusData = await withOutToken('GET', 'cpus');
 
       setCpus(cpusData.data);
     };

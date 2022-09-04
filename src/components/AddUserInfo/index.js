@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './addUserInfo.css';
 import { FaArrowLeft } from 'react-icons/fa';
-import { withOutBody } from '../../services/APIServices';
+import { withOutToken } from '../../services/APIServices';
 import {
   checkAlphabet,
   validMail,
@@ -24,13 +24,13 @@ const AddUserInfo = (props) => {
 
   useEffect(() => {
     const teamsList = async () => {
-      const teamsData = await withOutBody('GET', 'teams');
+      const teamsData = await withOutToken('GET', 'teams');
 
       setTeams(teamsData.data);
     };
 
     const positionsList = async () => {
-      const positionsData = await withOutBody('GET', 'positions');
+      const positionsData = await withOutToken('GET', 'positions');
 
       setPosition(positionsData.data);
     };
