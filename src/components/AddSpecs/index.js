@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Axios from 'axios';
 import { withOutToken } from '../../services/APIServices';
 import { Link, useNavigate } from 'react-router-dom';
 import { postMethod } from '../../services/APIServices';
@@ -17,7 +16,6 @@ const AddSpecs = () => {
     JSON.parse(localStorage.getItem('laptopSpecs')) || {
       laptop_name: '',
       laptop_image_base64: '',
-      laptop_image: [],
       laptop_brand_id: '',
       laptop_cpu: '',
       laptop_cpu_cores: '',
@@ -29,6 +27,12 @@ const AddSpecs = () => {
       laptop_price: '',
     }
   );
+  const [laptopImg, setLaptopImg] = useState(
+    JSON.parse(localStorage.getItem('laptopImg')) || {
+      laptop_image: [],
+      laptop_image_base64: '',
+    }
+  );
   const [laptopBrands, setLaptopBrands] = useState([]);
   const [cpus, setCpus] = useState([]);
   const [errors, setErrors] = useState({});
@@ -38,13 +42,11 @@ const AddSpecs = () => {
   useEffect(() => {
     const brandsList = async () => {
       const brandsData = await withOutToken('GET', 'brands');
-
       setLaptopBrands(brandsData.data);
     };
 
     const cpusList = async () => {
       const cpusData = await withOutToken('GET', 'cpus');
-
       setCpus(cpusData.data);
     };
 
@@ -57,6 +59,30 @@ const AddSpecs = () => {
 
     setErrors({});
   }, [specsInfo]);
+
+  useEffect(() => {
+    localStorage.setItem('laptopImg', JSON.stringify(laptopImg));
+
+    setErrors({});
+  }, [laptopImg]);
+
+  useEffect(() => {
+    const laptopImgInfo = JSON.parse(localStorage.getItem('laptopImg'));
+    const newImg = laptopImgInfo.laptop_image_base64;
+
+    const urltoFile = async (url, filename, mimeType) => {
+      const res = await fetch(url);
+      const buf = await res.arrayBuffer();
+      return new File([buf], filename, { type: mimeType });
+    };
+
+    urltoFile(newImg, 'laptop.jpeg', 'image/*').then((file) => {
+      setLaptopImg((oldData) => ({
+        ...oldData,
+        laptop_image: file,
+      }));
+    });
+  }, []);
 
   const laptopsOptions = laptopBrands.map((laptop) => {
     return (
@@ -75,17 +101,16 @@ const AddSpecs = () => {
       reader.readAsDataURL(acceptedFiles[0]);
 
       reader.addEventListener('load', () => {
-        setSpecsInfo((oldSpecs) => ({
-          ...oldSpecs,
+        setLaptopImg({
           laptop_image_base64: reader.result,
           laptop_image: acceptedFiles[0],
-        }));
+        });
       });
     },
   });
 
   const handleCancel = () => {
-    setSpecsInfo((oldInfo) => ({
+    setLaptopImg((oldInfo) => ({
       ...oldInfo,
       laptop_image: [],
       laptop_image_base64: '',
@@ -107,7 +132,7 @@ const AddSpecs = () => {
       }));
     }
 
-    if (!specsInfo.laptop_image_base64.trim()) {
+    if (!laptopImg.laptop_image_base64.trim()) {
       setErrors((oldErrors) => ({
         ...oldErrors,
         laptopImageError: 'სურათის ატვირთვა აუცილებელია',
@@ -190,7 +215,7 @@ const AddSpecs = () => {
         token: '7bbb011efcb959c1a848307bcc39a10e',
         laptop_name: specsInfo.laptop_name,
         laptop_brand_id: Number(specsInfo.laptop_brand_id),
-        laptop_image: specsInfo.laptop_image,
+        laptop_image: laptopImg.laptop_image,
         laptop_cpu: specsInfo.laptop_cpu,
         laptop_cpu_cores: Number(specsInfo.laptop_cpu_cores),
         laptop_cpu_threads: Number(specsInfo.laptop_cpu_threads),
@@ -206,6 +231,7 @@ const AddSpecs = () => {
       }
 
       postMethod(formData);
+      localStorage.removeItem('specsInfo');
     }
   };
 
@@ -216,10 +242,10 @@ const AddSpecs = () => {
       </Link>
       <Header activeSpecs={true} />
       <div className="inputFields">
-        {specsInfo.laptop_image_base64.length > 0 ? (
+        {laptopImg.laptop_image_base64.length > 0 ? (
           <div id="uploadedImg">
             <img
-              src={specsInfo.laptop_image_base64}
+              src={laptopImg.laptop_image_base64}
               alt="laptop.img"
               id="laptopImgToSend"
             />
