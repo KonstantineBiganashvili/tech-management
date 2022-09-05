@@ -75,27 +75,14 @@ const AddSpecs = () => {
       reader.readAsDataURL(acceptedFiles[0]);
 
       reader.addEventListener('load', () => {
-        formData.append('laptop_image', acceptedFiles);
-
-        for (const pair of formData.entries()) {
-          console.log(`${pair[0]}, ${pair[1]}`);
-        }
-
         setSpecsInfo((oldSpecs) => ({
           ...oldSpecs,
           laptop_image_base64: reader.result,
-          laptop_image: acceptedFiles,
+          laptop_image: acceptedFiles[0],
         }));
       });
     },
   });
-
-  // useEffect(() => {
-  //   console.log(formData);
-  //   for (const pair of formData.entries()) {
-  //     console.log(`${pair[0]}, ${pair[1]}`);
-  //   }
-  // }, [specsInfo]);
 
   const handleCancel = () => {
     setSpecsInfo((oldInfo) => ({
@@ -203,7 +190,7 @@ const AddSpecs = () => {
         token: '7bbb011efcb959c1a848307bcc39a10e',
         laptop_name: specsInfo.laptop_name,
         laptop_brand_id: Number(specsInfo.laptop_brand_id),
-        // laptop_image: specsInfo.laptop_image,
+        laptop_image: specsInfo.laptop_image,
         laptop_cpu: specsInfo.laptop_cpu,
         laptop_cpu_cores: Number(specsInfo.laptop_cpu_cores),
         laptop_cpu_threads: Number(specsInfo.laptop_cpu_threads),
