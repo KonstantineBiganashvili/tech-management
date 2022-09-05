@@ -1,10 +1,24 @@
 #allLaptops {
-  width: 1200px;
-  gap: 50px;
-  justify-content: flex-start;
+  width: 80vw;
+  gap: 2vw;
   margin: auto;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 30vw 30vw;
+  justify-content: center;
+  align-items: center;
   padding-bottom: 50px;
   background-color: #a8f0f0;
+}
+
+@media screen and (max-width: 390px) {
+  #allLaptops {
+    width: 100vw;
+  }
+
+  #allLaptops {
+    grid-template-columns: 95vw;
+    flex-direction: column;
+    gap: 5vw;
+    justify-items: center;
+  }
 }

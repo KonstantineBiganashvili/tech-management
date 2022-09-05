@@ -1,26 +1,27 @@
 #laptopContainer {
   background-color: #fff;
+  width: 100%;
 }
 
 #userInformation {
-  margin: 30px auto;
+  margin: auto;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  gap: 2.5vw;
 }
 
 #userInfoTable {
-  width: 500px;
+  width: 26vw;
 }
 
 .laptopInfoTable {
-  width: 400px;
+  width: 20.9vw;
 }
 
 #additionalInfo {
-  width: 1050px;
+  width: 55vw;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -29,23 +30,67 @@
 
 #userInfoTable tr td,
 .laptopInfoTable tr td {
-  padding: 13px 0;
+  padding: 0.9vw 0;
 }
 
 #laptopImg {
-  width: 500px;
+  width: 26.3vw;
   border-radius: 8px;
   object-fit: contain;
 }
 
 hr {
-  width: 1100px;
-  margin: 30px auto;
+  width: 55vw;
+  margin: 2vw auto;
 }
 
 #laptopInfo {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 250px;
+  gap: 13vw;
+}
+
+@media screen and (max-width: 390px) {
+  #laptopImg {
+    width: 90%;
+  }
+
+  #userInformation,
+  #laptopInfo,
+  #additionalInfo {
+    flex-direction: column;
+  }
+
+  #userInfoTable,
+  #laptopInfo,
+  .laptopInfoTable,
+  #additionalInfo {
+    width: 95%;
+  }
+
+  #laptopInfo {
+    align-items: center;
+    gap: 0;
+  }
+
+  hr {
+    width: 95%;
+  }
+
+  tbody tr {
+    margin-top: 10px;
+  }
+
+  table {
+    table-layout: fixed;
+  }
+
+  td:first-child {
+    width: 190px !important;
+  }
+
+  td {
+    word-wrap: wrap;
+  }
 }

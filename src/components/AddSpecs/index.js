@@ -11,6 +11,7 @@ import { validLaptopName } from '../../helpers/validators';
 import Header from '../Header';
 import Select from '../Select';
 import Success from '../Success';
+import HeaderResponsive from '../HeaderResponsive';
 
 const AddSpecs = () => {
   const [specsInfo, setSpecsInfo] = useState(
@@ -37,8 +38,23 @@ const AddSpecs = () => {
   const [showModal, setShowModal] = useState(false);
   const [laptopBrands, setLaptopBrands] = useState([]);
   const [cpus, setCpus] = useState([]);
+  const [width, setWidth] = useState(window.innerWidth);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  const getWidth = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', getWidth);
+
+    console.log(width);
+
+    return () => {
+      window.removeEventListener('resize', getWidth);
+    };
+  }, [width]);
 
   useEffect(() => {
     const brandsList = async () => {
@@ -232,7 +248,11 @@ const AddSpecs = () => {
       <Link to="/">
         <FaArrowLeft id="backButton" />
       </Link>
-      <Header activeSpecs={true} />
+      {width > 390 ? (
+        <Header activeSpecs={true} activeUserInfo={false} />
+      ) : (
+        <HeaderResponsive text="ლეპტოპის მახასიათებლები" page="2" />
+      )}
       <div className="inputFields">
         {laptopImg.laptop_image_base64.length > 0 ? (
           <div id="uploadedImg">
@@ -304,7 +324,7 @@ const AddSpecs = () => {
         <hr style={{ width: '100%' }} />
         <div className="inputGroups">
           <div id="cpuInfo">
-            <div className="specsSelects">
+            <div>
               <select
                 value={specsInfo.laptop_cpu || 'CPU'}
                 id="selectCpus"
@@ -490,7 +510,11 @@ const AddSpecs = () => {
       </div>
       <img src="/img/logo-round.png" alt="redberry round logo" />
 
-      <Success showModal={showModal} setShowModal={setShowModal} />
+      <Success
+        showModal={showModal}
+        setShowModal={setShowModal}
+        width={width}
+      />
     </div>
   );
 };

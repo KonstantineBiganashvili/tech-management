@@ -1,0 +1,18 @@
+#responvieHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  align-items: center;
+  justify-content: center;
+  height: 20vw;
+}
+
+#responsivePageTxt,
+#responsiveHeaderTxt {
+  margin-bottom: 0;
+}
+
+#responsiveHeaderTxt {
+  font-size: 4vw;
+  font-weight: 700;
+}

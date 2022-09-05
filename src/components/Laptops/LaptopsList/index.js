@@ -35,13 +35,15 @@ const LaptopsList = () => {
   });
 
   return (
-    <div id="allLaptops">
+    <>
       <Link to="/">
         <FaArrowLeft id="backButton" />
       </Link>
       <LaptopHeader text="ჩანაწერების სია" />
-      <>{laptops}</>
-    </div>
+      <div id="allLaptops">
+        <>{laptops}</>
+      </div>
+    </>
   );
 };
 

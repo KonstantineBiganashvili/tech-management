@@ -1,16 +1,18 @@
 #header {
-  font-size: 14px;
   display: flex;
-  gap: 40px;
   justify-content: center;
+  width: 100%;
+  gap: 2vw;
 }
 
 .page {
   text-decoration: none;
+  display: inline-block;
   color: #000;
+  font-size: 1.5vw;
 }
 
 .activePage {
   text-decoration: underline;
-  text-underline-offset: 10px;
+  text-underline-offset: 1vw;
 }
