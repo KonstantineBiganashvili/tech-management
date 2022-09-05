@@ -87,6 +87,10 @@ hr {
   }
 
   td:first-child {
-    width: 210px !important;
+    width: 190px !important;
+  }
+
+  td {
+    word-wrap: wrap;
   }
 }
