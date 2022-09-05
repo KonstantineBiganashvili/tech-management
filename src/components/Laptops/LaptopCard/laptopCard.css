@@ -3,20 +3,20 @@
   background-color: #eafaff;
   border-radius: 8px;
   border: 1px solid #aed1ea;
-  gap: 20px;
-  padding: 10px;
-  width: 550px;
+  gap: 1vw;
+  padding: 0.8vw;
+  width: 100%;
 }
 
 .laptopImg {
-  width: 300px;
-  height: 200px;
+  width: 60%;
   border-radius: 8px;
-  object-fit: fill;
+  object-fit: cover;
 }
 
 .laptopInfo {
   background-color: #eafaff;
+  width: 40%;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -24,11 +24,22 @@
 }
 
 .cardP {
-  padding: 10px;
+  padding: 0.7vw;
   font-weight: 700;
 }
 
 .laptopInfo a {
   color: #4386a9;
-  padding: 40px 10px;
+  padding: 0.8vw;
+}
+
+@media screen and (max-width: 390px) {
+  .cardP {
+    font-size: 3.8vw;
+  }
+
+  .laptopCard {
+    width: 358px;
+    height: 128px;
+  }
 }

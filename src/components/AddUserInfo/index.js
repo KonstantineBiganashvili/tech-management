@@ -11,6 +11,7 @@ import {
 
 import Header from '../Header';
 import Select from '../Select';
+import HeaderResponsive from '../HeaderResponsive';
 
 const AddUserInfo = (props) => {
   const [enteredInfo, setEnteredInfo] = useState(
@@ -27,7 +28,12 @@ const AddUserInfo = (props) => {
   const [teams, setTeams] = useState([]);
   const [positions, setPosition] = useState([]);
   const [errors, setErrors] = useState({});
+  const [width, setWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+
+  const getWidth = () => {
+    setWidth(window.innerWidth);
+  };
 
   useEffect(() => {
     const teamsList = async () => {
@@ -47,6 +53,16 @@ const AddUserInfo = (props) => {
   }, []);
 
   useEffect(() => {
+    window.addEventListener('resize', getWidth);
+
+    console.log(width);
+
+    return () => {
+      window.removeEventListener('resize', getWidth);
+    };
+  }, [width]);
+
+  useEffect(() => {
     localStorage.setItem('userInfo', JSON.stringify(enteredInfo));
     setErrors({});
   }, [enteredInfo]);
@@ -62,8 +78,6 @@ const AddUserInfo = (props) => {
       if (element.id === Number(enteredInfo.team)) return true;
       return false;
     });
-
-    console.log(currentTeam);
 
     if (currentTeam.length && currentTeam[0].id === element.team_id) {
       return (
@@ -148,7 +162,11 @@ const AddUserInfo = (props) => {
         <FaArrowLeft id="backButton" />
       </Link>
 
-      <Header activeEmployees={true} activeSpecs={false} />
+      {width > 390 ? (
+        <Header activeEmployees={true} activeSpecs={false} />
+      ) : (
+        <HeaderResponsive text="თანამშრომლის ინფო" page="1" />
+      )}
       <div className="inputFields">
         <div className="textInputs">
           <div className="inputGroup">

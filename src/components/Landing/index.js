@@ -7,6 +7,11 @@ const Landing = () => {
     <div id="landing">
       <img src="./img/logo.png" id="logo" alt="redberry logo" />
       <img src="./img/landing.png" id="landingImg" alt="landing" />
+      <img
+        src="./img/landing_responsive.png"
+        id="landingImgResponsive"
+        alt="landing"
+      />
       <div id="buttons">
         <Link to="addrecord/employee">
           <button className="landingBtns">ჩანაწერის დამატება</button>

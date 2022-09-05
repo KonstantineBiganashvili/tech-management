@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './success.css';
 
 const Success = (props) => {
-  const { showModal, setShowModal } = props;
+  const { showModal, setShowModal, width } = props;
   const navigate = useNavigate();
 
   return (

@@ -1,5 +1,12 @@
 .laptopHeader {
   width: 100%;
   text-align: center;
-  padding: 40px 0;
+  padding: 2vw 0;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 390px) {
+  .laptopHeader {
+    padding: 9vw 0;
+  }
 }
