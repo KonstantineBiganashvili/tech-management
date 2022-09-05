@@ -10,6 +10,7 @@ import './addSpecs.css';
 import { validLaptopName } from '../../helpers/validators';
 import Header from '../Header';
 import Select from '../Select';
+import Success from '../Success';
 
 const AddSpecs = () => {
   const [specsInfo, setSpecsInfo] = useState(
@@ -33,11 +34,11 @@ const AddSpecs = () => {
       laptop_image_base64: '',
     }
   );
+  const [showModal, setShowModal] = useState(false);
   const [laptopBrands, setLaptopBrands] = useState([]);
   const [cpus, setCpus] = useState([]);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const formData = new FormData();
 
   useEffect(() => {
     const brandsList = async () => {
@@ -68,7 +69,7 @@ const AddSpecs = () => {
 
   useEffect(() => {
     const laptopImgInfo = JSON.parse(localStorage.getItem('laptopImg'));
-    const newImg = laptopImgInfo.laptop_image_base64;
+    const base64 = laptopImgInfo.laptop_image_base64;
 
     const urltoFile = async (url, filename, mimeType) => {
       const res = await fetch(url);
@@ -76,7 +77,7 @@ const AddSpecs = () => {
       return new File([buf], filename, { type: mimeType });
     };
 
-    urltoFile(newImg, 'laptop.jpeg', 'image/*').then((file) => {
+    urltoFile(base64, 'laptop.jpeg', 'image/*').then((file) => {
       setLaptopImg((oldData) => ({
         ...oldData,
         laptop_image: file,
@@ -125,85 +126,58 @@ const AddSpecs = () => {
   };
 
   const handleSubmit = () => {
+    const errorsObject = {};
+
     if (!specsInfo.laptop_name.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        laptopNameError: 'ლეპტოპის სახელი არ უნდა იყოს ცარიელი',
-      }));
+      errorsObject.laptopNameError = 'ლეპტოპის სახელი არ უნდა იყოს ცარიელი';
     }
 
     if (!laptopImg.laptop_image_base64.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        laptopImageError: 'სურათის ატვირთვა აუცილებელია',
-      }));
+      errorsObject.laptopImageError = 'სურათის ატვირთვა აუცილებელია';
     }
 
-    if (!validLaptopName(specsInfo.laptop_name))
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        laptopNameError:
-          'შესაძლებელია შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს, რიცხვებსა და !@#$%^&()_+=',
-      }));
+    if (!validLaptopName(specsInfo.laptop_name)) {
+      errorsObject.laptopNameError =
+        'შესაძლებელია შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს, რიცხვებსა და !@#$%^&()_+=';
+    }
 
     if (!specsInfo.laptop_brand_id.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        brandError: 'აირჩიეთ ბრენდი',
-      }));
+      errorsObject.brandError = 'აირჩიეთ ბრენდი';
     }
 
     if (!specsInfo.laptop_cpu.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        cpuError: 'აირჩიეთ CPU',
-      }));
+      errorsObject.cpuError = 'აირჩიეთ CPU';
     }
 
     if (!specsInfo.laptop_cpu_cores.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        coresError: 'შეიყვანეთ ბირთვების რაოდენობა',
-      }));
+      errorsObject.coresError = 'შეიყვანეთ ბირთვების რაოდენობა';
     }
 
     if (!specsInfo.laptop_cpu_threads.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        threadsError: 'შეიყვანეთ ნაკადების რაოდენობა',
-      }));
+      errorsObject.threadsError = 'შეიყვანეთ ნაკადების რაოდენობა';
     }
 
     if (!specsInfo.laptop_ram.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        ramError: 'შეიყვანეთ RAM-ის რაოდენობა',
-      }));
+      errorsObject.ramError = 'შეიყვანეთ RAM-ის რაოდენობა';
     }
 
     if (!specsInfo.laptop_hard_drive_type.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        storageError: 'აირჩიეთ მეხსიერების ტიპი',
-      }));
+      errorsObject.storageError = 'აირჩიეთ მეხსიერების ტიპი';
     }
 
     if (!specsInfo.laptop_price.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        priceError: 'შეივყანეთ ლეპტოპის ფასი',
-      }));
+      errorsObject.priceError = 'შეივყანეთ ლეპტოპის ფასი';
     }
 
     if (!specsInfo.laptop_state.trim()) {
-      setErrors((oldErrors) => ({
-        ...oldErrors,
-        stateError: 'აირჩიეთ მდგომარეობა',
-      }));
+      errorsObject.stateError = 'აირჩიეთ მდგომარეობა';
     }
 
-    if (!Object.keys(errors).length) {
+    if (Object.keys(errorsObject).length) {
+      setErrors(errorsObject);
+    } else {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      const formData = new FormData();
 
       const finalInfo = {
         name: userInfo.name,
@@ -231,7 +205,25 @@ const AddSpecs = () => {
       }
 
       postMethod(formData);
-      localStorage.removeItem('specsInfo');
+      localStorage.clear();
+      setSpecsInfo({
+        laptop_name: '',
+        laptop_image_base64: '',
+        laptop_brand_id: '',
+        laptop_cpu: '',
+        laptop_cpu_cores: '',
+        laptop_cpu_threads: '',
+        laptop_ram: '',
+        laptop_hard_drive_type: '',
+        laptop_state: '',
+        laptop_purchase_date: '',
+        laptop_price: '',
+      });
+      setLaptopImg({
+        laptop_image: [],
+        laptop_image_base64: '',
+      });
+      setShowModal(true);
     }
   };
 
@@ -497,6 +489,8 @@ const AddSpecs = () => {
         </div>
       </div>
       <img src="/img/logo-round.png" alt="redberry round logo" />
+
+      <Success showModal={showModal} setShowModal={setShowModal} />
     </div>
   );
 };

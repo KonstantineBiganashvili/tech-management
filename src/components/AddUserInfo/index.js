@@ -14,7 +14,14 @@ import Select from '../Select';
 
 const AddUserInfo = (props) => {
   const [enteredInfo, setEnteredInfo] = useState(
-    JSON.parse(localStorage.getItem('userInfo')) || {}
+    JSON.parse(localStorage.getItem('userInfo')) || {
+      name: '',
+      surname: '',
+      team: '',
+      position: '',
+      mail: '',
+      number: '',
+    }
   );
 
   const [teams, setTeams] = useState([]);
@@ -124,7 +131,7 @@ const AddUserInfo = (props) => {
 
     if (enteredInfo.mail) {
       if (!validMail(enteredInfo.mail.toLowerCase())) {
-        errorsObject.mailError = 'მეილი უნდა მთავრდებოდეს @redberry.com-ით';
+        errorsObject.mailError = 'მეილი უნდა მთავრდებოდეს @redberry.ge-ით';
       }
     }
 
@@ -247,7 +254,7 @@ const AddUserInfo = (props) => {
               <p className="errorText">{errors.mailError}</p>
             ) : (
               <p className="additionalInfo">
-                უნდა მთავრდებოდეს @redberry.com-ით
+                უნდა მთავრდებოდეს @redberry.ge-ით
               </p>
             )}
           </div>
